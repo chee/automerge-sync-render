@@ -29,9 +29,15 @@ repo.addListener("document", payload => {
 console.info(`gonna listen on ${process.env.PORT}`)
 srv
 	.listen(Number.parseInt(process.env.PORT || "11124"))
-	.addListener("connect", console.info)
-	.addListener("connection", console.info)
-	.addListener("error", console.info)
+	.addListener("connect", payload => {
+		console.info("connect", payload.statusCode)
+	})
+	.addListener("connection", payload =>
+		console.info("connection", payload.address)
+	)
+	.addListener("error", payload => {
+		console.error("something went wrongly", payload.message)
+	})
 	.addListener("listening", () => {
 		console.info("i am listening")
 	})
