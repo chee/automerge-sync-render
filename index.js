@@ -12,6 +12,7 @@ srv.ws("/", () => {})
 srv.use(express.static("public"))
 srv.use(cors())
 
+console.info("setting up repo")
 let repo = new Repo({
 	network: [new NodeWSServerAdapter(websocket)],
 	storage: new PostgresStorageAdapter("automerge"),
@@ -25,4 +26,12 @@ repo.addListener("document", payload => {
 	console.info("document!", payload.handle.url)
 })
 
-srv.listen(Number.parseInt(process.env.PORT || "11124"))
+console.info(`gonna listen on ${process.env.PORT}`)
+srv
+	.listen(Number.parseInt(process.env.PORT || "11124"))
+	.addListener("connect", console.info)
+	.addListener("connection", console.info)
+	.addListener("error", console.info)
+	.addListener("listening", () => {
+		console.info("i am listening")
+	})
