@@ -1,0 +1,17 @@
+{
+  "name": "automerge-sync-render",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@automerge/automerge-repo": "^1.2.1",
+    "@automerge/automerge-repo-network-websocket": "^1.2.1",
+    "automerge-repo-storage-postgres": "^0.0.1"
+  }
+}
