@@ -71,9 +71,12 @@ requestAnimationFrame(function more() {
 		star.style.top = (rand() * 100) + "vh"
 		star.style.animationDuration = rand() * 1 + "s"
 		star.style.height = star.style.width = ((Math.random()*3|0)+1) + "px"
-		star.style.setProperty("special", specials[rand()*10|0])
+		star.style.setProperty(
+			"--special",
+			specials[rand()*specials.length|0]
+		)
 		document.body.append(star)
-		setTimeout(more, requestAnimationFrame(rand) * 1000)
+		setTimeout(() => requestAnimationFrame(more), rand() * 1000)
     }
 })
 </script>
