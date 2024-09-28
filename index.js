@@ -1,3 +1,4 @@
+import "dotenv/config"
 import {PostgresStorageAdapter} from "automerge-repo-storage-postgres"
 import {NodeWSServerAdapter} from "@automerge/automerge-repo-network-websocket"
 import {Repo} from "@automerge/automerge-repo"
@@ -5,41 +6,30 @@ import express from "express"
 import ws from "express-ws"
 import cors from "cors"
 
-let exws = ws(express())
-let srv = exws.app
-let websocket = exws.getWss()
+const exws = ws(express())
+const srv = exws.app
+const websocket = exws.getWss()
 srv.ws("/", () => {})
 srv.use(express.static("public"))
 srv.use(cors())
 
-console.info("setting up repo")
-let repo = new Repo({
+const repo = new Repo({
 	network: [new NodeWSServerAdapter(websocket)],
-	storage: new PostgresStorageAdapter("automerge"),
+	storage: new PostgresStorageAdapter("starlight"),
 	peerId: /** @type {import("@automerge/automerge-repo").PeerId} */ (
-		process.env.PEER_ID || "nightlight"
+		process.env.PEER_ID || "starlight"
 	),
 	sharePolicy: async () => false,
 })
+
+srv.get("/metrics.json", (request, response) => response.send(repo.metrics()))
 
 repo.addListener("document", payload => {
 	console.info("document!", payload.handle.url)
 })
 
-console.info(`gonna listen on ${process.env.PORT}`)
-srv
-	.listen(Number.parseInt(process.env.PORT || "11124"))
-	.addListener("connect", payload => {
-		console.info("connect", payload.statusCode)
-	})
-	.addListener("connection", payload =>
-		console.info("connection", payload.address)
-	)
-	.addListener("error", payload => {
-		console.error("something went wrongly", payload.message)
-	})
-	.addListener("listening", () => {
-		console.info("i am listening")
-	})
+const port = process.env.PORT || "11128"
+
+srv.listen(+port)
 
 export default repo
