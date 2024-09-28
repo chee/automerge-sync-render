@@ -1,5 +1,5 @@
 {
-  "name": "automerge-sync-render",
+  "name": "galaxy.observer",
   "version": "1.0.0",
   "type": "module",
   "description": "",
@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@automerge/automerge": "2.2.8",
     "@automerge/automerge-repo": "2.0.0-alpha.11",
