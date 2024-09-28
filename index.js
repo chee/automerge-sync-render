@@ -33,7 +33,7 @@ srv
 		console.info("connect", payload.statusCode)
 	})
 	.addListener("connection", payload =>
-		console.info("connection", payload.address)
+		console.info("connection", payload.address())
 	)
 	.addListener("error", payload => {
 		console.error("something went wrongly", payload.message)
