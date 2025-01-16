@@ -19,6 +19,7 @@ let repo = new Repo({
 	peerId: /** @type {import("@automerge/automerge-repo").PeerId} */ (
 		process.env.PEER_ID || "nightlight"
 	),
+	enableRemoteHeadsGossiping: true,
 	sharePolicy: async () => false,
 })
 
