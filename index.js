@@ -1,5 +1,5 @@
 import "dotenv/config"
-import {NodeFSStorageAdapter} from "@automerge/automerge-repo-storage-nodefs"
+import {PostgresStorageAdapter} from "automerge-repo-storage-postgres"
 import {NodeWSServerAdapter} from "@automerge/automerge-repo-network-websocket"
 import {Repo} from "@automerge/automerge-repo"
 import express from "express"
@@ -15,11 +15,11 @@ srv.use(cors())
 
 const repo = new Repo({
 	network: [new NodeWSServerAdapter(websocket)],
-	storage: new NodeFSStorageAdapter(
-		process.env.STORAGE_DIRECTORY ?? "/automerge"
+	storage: new PostgresStorageAdapter(
+		process.env.AUTOMERGE_TABLE ?? "starlight"
 	),
 	peerId: /** @type {import("@automerge/automerge-repo").PeerId} */ (
-		process.env.PEER_ID || "starlight"
+		process.env.AUTOMERGE_PEER_ID || "starlight"
 	),
 	sharePolicy: async () => false,
 })
