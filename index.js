@@ -28,7 +28,7 @@ srv.get("/metrics.json", (request, response) => {
 	if (request.query.secret == process.env.METRICS_SECRET) {
 		response.json(repo.metrics())
 	} else {
-		response.status(403).send('{"sorry": "baby", "no": "secret}')
+		response.status(403).send('{"sorry": "baby", "bad": "secret}')
 	}
 })
 
