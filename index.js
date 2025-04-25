@@ -1,7 +1,7 @@
 import "dotenv/config"
 import {PostgresStorageAdapter} from "automerge-repo-storage-postgres"
 import {NodeWSServerAdapter} from "@automerge/automerge-repo-network-websocket"
-import {Repo} from "@automerge/automerge-repo"
+import {isValidDocumentId, Repo} from "@automerge/automerge-repo"
 import express from "express"
 import ws from "express-ws"
 import cors from "cors"
@@ -14,7 +14,7 @@ srv.use(express.static("public"))
 srv.use(cors())
 
 const repo = new Repo({
-	network: [new NodeWSServerAdapter(websocket)],
+	network: [new NodeWSServerAdapter(/** @type {any} */ (websocket))],
 	storage: new PostgresStorageAdapter(
 		process.env.AUTOMERGE_TABLE ?? "starlight"
 	),
@@ -26,9 +26,27 @@ const repo = new Repo({
 
 srv.get("/metrics.json", (request, response) => {
 	if (request.query.secret == process.env.METRICS_SECRET) {
-		return response.json(repo.metrics())
+		response.json(repo.metrics())
 	} else {
-		return response.status(403).send('{"sorry": "baby", "no": "secret}')
+		response.status(403).send('{"sorry": "baby", "no": "secret}')
+	}
+})
+
+srv.get("/document/:id", async (request, response) => {
+	const contentType =
+		request.query["content-type"] ?? "application/octet-stream"
+	if (isValidDocumentId(request.params.id)) {
+		const handle = await repo.find(request.params.id)
+		if (handle) {
+			if (typeof contentType == "string") {
+				response.setHeader("content-type", contentType)
+			} else {
+				response.setHeader("content-type", contentType[0])
+			}
+			response.send(handle.doc())
+		} else {
+			response.status(404).send("notnone")
+		}
 	}
 })
 

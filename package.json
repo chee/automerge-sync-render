@@ -1,24 +1,24 @@
 {
-  "name": "galaxy.observer",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@automerge/automerge": "2.2.8",
-    "@automerge/automerge-repo": "2.0.0-alpha.11",
-    "@automerge/automerge-repo-network-websocket": "2.0.0-alpha.11",
-    "@automerge/automerge-repo-storage-nodefs": "^1.2.1",
-    "automerge-repo-storage-postgres": "^0.0.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
-    "express-ws": "^5.0.2"
-  }
+	"name": "galaxy.observer",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@automerge/automerge": "2.2.8",
+		"@automerge/automerge-repo": "2.0.0-alpha.27",
+		"@automerge/automerge-repo-network-websocket": "2.0.0-alpha.27",
+		"@automerge/automerge-repo-storage-nodefs": "^1.2.1",
+		"automerge-repo-storage-postgres": "^0.0.1",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.0",
+		"express-ws": "^5.0.2"
+	}
 }
