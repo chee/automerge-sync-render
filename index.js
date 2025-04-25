@@ -33,8 +33,7 @@ srv.get("/metrics.json", (request, response) => {
 })
 
 srv.get("/document/:id", async (request, response) => {
-	const contentType =
-		request.query["content-type"] ?? "application/octet-stream"
+	const contentType = request.query["content-type"] ?? "application/json"
 	if (isValidDocumentId(request.params.id)) {
 		const handle = await repo.find(request.params.id)
 		if (handle) {
