@@ -11,15 +11,18 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"@automerge/automerge": "2.2.8",
-		"@automerge/automerge-repo": "2.0.0-beta.5",
-		"@automerge/automerge-repo-network-websocket": "2.0.0-beta.5",
-		"@automerge/automerge-repo-storage-nodefs": "2.0.0-beta.5",
+		"@automerge/automerge": "3.0.0-beta.0",
+		"@automerge/automerge-repo-network-websocket": "^2.0.0",
+		"@automerge/vanillajs": "^2.0.0",
 		"automerge-repo-storage-postgres": "^0.0.1",
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
 		"express": "^4.21.0",
 		"express-ws": "^5.0.2",
 		"nodemon": "^3.1.10"
+	},
+	"overrides": {
+		"@automerge/automerge": "3.0.0.beta.0",
+		"@automerge/automerge-repo": "2.0.0"
 	}
 }

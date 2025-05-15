@@ -1,7 +1,8 @@
 import "dotenv/config"
 import {PostgresStorageAdapter} from "automerge-repo-storage-postgres"
-import {NodeWSServerAdapter} from "@automerge/automerge-repo-network-websocket"
-import {isValidDocumentId, Repo} from "@automerge/automerge-repo"
+import {isValidDocumentId, Repo} from "@automerge/vanillajs"
+import {WebSocketServerAdapter} from "@automerge/automerge-repo-network-websocket"
+
 import express from "express"
 import ws from "express-ws"
 import cors from "cors"
@@ -14,11 +15,11 @@ srv.use(express.static("public"))
 srv.use(cors())
 
 const repo = new Repo({
-	network: [new NodeWSServerAdapter(/** @type {any} */ (websocket))],
+	network: [new WebSocketServerAdapter(/** @type {any} */ (websocket))],
 	storage: new PostgresStorageAdapter(
 		process.env.AUTOMERGE_TABLE ?? "starlight"
 	),
-	peerId: /** @type {import("@automerge/automerge-repo").PeerId} */ (
+	peerId: /** @type {import("@automerge/vanillajs").PeerId} */ (
 		process.env.AUTOMERGE_PEER_ID || "starlight"
 	),
 	sharePolicy: async () => false,
