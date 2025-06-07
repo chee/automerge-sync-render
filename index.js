@@ -2,17 +2,19 @@ import "dotenv/config"
 import {PostgresStorageAdapter} from "automerge-repo-storage-postgres"
 import {isValidDocumentId, Repo} from "@automerge/vanillajs"
 import {WebSocketServerAdapter} from "@automerge/automerge-repo-network-websocket"
+import {ExpressPeerServer} from "peer"
 
 import express from "express"
 import ws from "express-ws"
 import cors from "cors"
 
-const exws = ws(express())
-const srv = exws.app
+const ex = express()
+const exws = ws(ex)
+const app = exws.app
 const websocket = exws.getWss()
-srv.ws("/", () => {})
-srv.use(express.static("public"))
-srv.use(cors())
+app.ws("/", () => {})
+app.use(express.static("public"))
+app.use(cors())
 
 const repo = new Repo({
 	network: [new WebSocketServerAdapter(/** @type {any} */ (websocket))],
@@ -25,7 +27,7 @@ const repo = new Repo({
 	sharePolicy: async () => false,
 })
 
-srv.get("/metrics.json", (request, response) => {
+app.get("/metrics.json", (request, response) => {
 	if (request.query.secret == process.env.METRICS_SECRET) {
 		response.json(repo.metrics())
 	} else {
@@ -33,7 +35,7 @@ srv.get("/metrics.json", (request, response) => {
 	}
 })
 
-srv.get("/document/:id", async (request, response) => {
+app.get("/document/:id", async (request, response) => {
 	const contentType = request.query["content-type"] ?? "application/json"
 	if (isValidDocumentId(request.params.id)) {
 		const handle = await repo.find(request.params.id)
@@ -56,6 +58,8 @@ repo.addListener("document", payload => {
 
 const port = process.env.PORT || "11128"
 
-srv.listen(+port)
+const srv = app.listen(+port)
+const peers = ExpressPeerServer(srv, {path: "/peers"})
+app.use("/peers", peers)
 
 export default repo
