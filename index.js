@@ -2,7 +2,6 @@ import "dotenv/config"
 import {PostgresStorageAdapter} from "automerge-repo-storage-postgres"
 import {isValidDocumentId, Repo} from "@automerge/vanillajs"
 import {WebSocketServerAdapter} from "@automerge/automerge-repo-network-websocket"
-import {ExpressPeerServer} from "peer"
 
 import express from "express"
 import ws from "express-ws"
@@ -59,7 +58,5 @@ repo.addListener("document", payload => {
 const port = process.env.PORT || "11128"
 
 const srv = app.listen(+port)
-const peers = ExpressPeerServer(srv, {path: "/peers"})
-app.use("/peers", peers)
 
 export default repo
